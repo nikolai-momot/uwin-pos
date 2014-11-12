@@ -1,4 +1,4 @@
-package Project.java;
+package GUI;
 
 import java.util.*;
 import java.awt.BorderLayout;
@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
@@ -36,50 +37,50 @@ public abstract class mainFrame extends JFrame implements ActionListener,ListSel
 	
 	public mainFrame(String title) {
 		super(title);
+		
 		setSize(500,250);
 		setResizable(false);
 		setLayout(new FlowLayout());
 		
 		logout = new JButton("Logout");
 		add(logout);
-	 	
-		menuItems = new DefaultListModel<String>();
-		menuItems.addElement("Item             Price");
-		menuItems.addElement("Pasta            $15.99");
-		menuItems.addElement("Burgers          $7.89");
-		menuItems.addElement("Fries            $3.00");
-		menuItems.addElement("Hommus           $100");
-		menuItems.addElement("Salad            $7.59");
-		menuItems.addElement("Pizza            $15.99");
-		menuItems.addElement("Poutine          $10.99");
-		menuItems.addElement("Steak            $27.9");
+		String[] columnNames = {"First Name", "Price"};
 		
-		
-		
-		theMenu = new JList<String>(menuItems);
-		add(theMenu);
-		theMenu.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		theMenu.setLayoutOrientation(JList.VERTICAL);
-		theMenu.setVisibleRowCount(-1);
-		listScroller = new JScrollPane(theMenu);
+		Object[][] data = {
+			    {"Kathy", new Double(5.00)},
+			    {"John", new Double(3.00)},
+			    {"Sue", new Double(2.00)},
+			    {"Jane", new Double(20.00)},
+			    {"Joe", new Double(10.00)}
+			};
+		final JTable table = new JTable(data, columnNames);
+		add(table);
+		listScroller = new JScrollPane(table);
 		listScroller.setPreferredSize(new Dimension(450, 80));
 		add(listScroller);
 		label = new JLabel("Subtotal");
 		add(label);
 		subTotal = new JTextField(30);
 		add(subTotal);
-		theMenu.addListSelectionListener(new ListSelectionListener(){
-
-			public void valueChanged(ListSelectionEvent e) {
-				
-				
-			}
-		});
+//		theMenu.addListSelectionListener(new ListSelectionListener(){
+//
+//			public void valueChanged(ListSelectionEvent e) {
+//				
+//				
+//			}
+//		});
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	        	float total1 = 0;//bug here
+	        	total1 += (double) table.getValueAt(table.getSelectedRow(), 1);
+	        	subTotal.setText(String.format("%.2f", total));
+	        }
+	    });
 		confirmOrder = new JButton("Confirm Order");
 		confirmOrder.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				PayFrame pay = new PayFrame("Pay Frame", theMenu.getSelectedValues() );
-				pay.setVisible(true);
+				System.out.println(e.getActionCommand());
+				
 			}
 		});
 		add(confirmOrder);
