@@ -1,4 +1,4 @@
-package Project.java;
+package GUI;
 
 import java.awt.event.ActionEvent;
 
@@ -10,6 +10,7 @@ public class ManagerFrame extends mainFrame  {
 	private JButton removeItem;
 	public ManagerFrame(String title) {
 		super(title);
+		setSize(500,250);
 		addItem = new JButton("Add an item");
 		add(addItem);
 		removeItem = new JButton("Remove an item");
