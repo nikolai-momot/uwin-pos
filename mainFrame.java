@@ -1,4 +1,4 @@
-package gui;
+package pos;
 
 import java.util.*;
 import java.awt.BorderLayout;

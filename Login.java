@@ -1,4 +1,5 @@
-package Project.java;
+package pos;
+
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,8 +20,8 @@ public class Login extends JFrame implements ActionListener {
 	
 	private JButton login;
 	private String[] description = { "employee", "manager" };
-	private mainFrame manager;
-	private mainFrame cashier;
+	private MainFrame manager;
+	private MainFrame cashier;
 	private JComboBox loginOption = new JComboBox();
 	
 	public Login(String title) {

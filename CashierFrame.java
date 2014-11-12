@@ -1,10 +1,10 @@
-package Project.java;
+package pos;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.event.ListSelectionEvent;
 
-public class CashierFrame extends mainFrame {
+public class CashierFrame extends MainFrame {
 	
 	public CashierFrame(String title){
 		super(title);

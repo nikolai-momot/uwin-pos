@@ -1,3 +1,5 @@
+package pos;
+
 
 public class Item {
 	private String name;

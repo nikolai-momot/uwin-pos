@@ -1,11 +1,11 @@
-package GUI;
+package pos;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 import javax.swing.event.ListSelectionEvent;
 
-public class ManagerFrame extends mainFrame  {
+public class ManagerFrame extends MainFrame  {
 	private JButton addItem;
 	private JButton removeItem;
 	public ManagerFrame(String title) {

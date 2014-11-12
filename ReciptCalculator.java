@@ -1,11 +1,15 @@
-import java.sql.*;
+package pos;
+
+
+
+//import java.sql.*;
 public class ReciptCalculator {
 	//Set up things to access the SQL database
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+	/*static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	static final String DB_URL = "jdbc:mysql://localhost/STUDENTS";	
 	static final String USER = "root";
 	static final String PASS = "admin";
-	
+	*/
 	public static void main(String[] args) {
 		   
 	}
