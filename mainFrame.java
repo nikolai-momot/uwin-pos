@@ -1,4 +1,4 @@
-package gui;
+package GUI;
 
 import java.util.*;
 import java.awt.BorderLayout;
@@ -21,41 +21,39 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public abstract class MainFrame extends JFrame implements ActionListener,ListSelectionListener{
+public abstract class mainFrame extends JFrame implements ActionListener,ListSelectionListener{
 	private JButton confirmOrder;
 	private JButton clearSelection;
 	private JButton logout;
 	private JButton discount;
+	private JList<String> theMenu;
 	private JScrollPane listScroller;
+	private DefaultListModel<String> menuItems; 
 	private ListSelectionModel selectionMode;
 	private String[] discountOptions = { " ", "employee", "manager" };
 	private JComboBox discountList = new JComboBox();
 	private JTextField subTotal, total;
 	private JLabel label, label2;
-	private JTable table;
-	private Object[][] theOrder;
 	
-	private int j, i;
-	public MainFrame(String title) {
+	public mainFrame(String title) {
 		super(title);
+		
 		setSize(500,250);
 		setResizable(false);
 		setLayout(new FlowLayout());
-		theOrder = new Object[20][20];
-		j = 0;
-		i = 0;
+		
 		logout = new JButton("Logout");
 		add(logout);
-		String[] columnNames = {"Food item", "Price"};
+		String[] columnNames = {"First Name", "Price"};
 		
 		Object[][] data = {
-			    {"food", new Double(5.00)},
-			    {"more food", new Double(3.00)},
-			    {"lots of food", new Double(2.00)},
-			    {"not so much food", new Double(20.00)},
-			    {"kind of food", new Double(10.00)}
+			    {"Kathy", new Double(5.00)},
+			    {"John", new Double(3.00)},
+			    {"Sue", new Double(2.00)},
+			    {"Jane", new Double(20.00)},
+			    {"Joe", new Double(10.00)}
 			};
-		table = new JTable(data, columnNames);
+		final JTable table = new JTable(data, columnNames);
 		add(table);
 		listScroller = new JScrollPane(table);
 		listScroller.setPreferredSize(new Dimension(450, 80));
@@ -73,44 +71,24 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 //		});
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
-	        	String total1;//bug here
-	        	int count = 0;
-	        	total1 = table.getValueAt(table.getSelectedRow(), 1).toString();
-	        	System.out.println("i: " + i + " | j: " + j);
-	        	while(count < 2 ){
-	        		theOrder[i][j] = table.getValueAt(table.getSelectedRow(), 0);
-	        		j++;
-	        		theOrder[i][j] = table.getValueAt(table.getSelectedRow(), 1);
-	        	}
-	        	i++;
-	        	subTotal.setText(total1);
+	        	float total1 = 0;//bug here
+	        	total1 += (double) table.getValueAt(table.getSelectedRow(), 1);
+	        	subTotal.setText(String.format("%.2f", total));
 	        }
 	    });
 		confirmOrder = new JButton("Confirm Order");
 		confirmOrder.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				PayFrame pay = new PayFrame("Pay Frame", theOrder);
-				pay.setVisible(true);
+				System.out.println(e.getActionCommand());
+				
 			}
 		});
 		add(confirmOrder);
 		clearSelection = new JButton("Clear Selection");
-		clearSelection.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				subTotal.setText("");
-				table.removeRowSelectionInterval(0, table.getRowCount() - 1);
-				i = 0;
-				j = 0;
-			}
-		});
+		
 		
 		add(clearSelection);
 		discount = new JButton("Discount");
-		discount.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
 		add(discount);
 		
 		for (int i = 0; i < 3; i++)
