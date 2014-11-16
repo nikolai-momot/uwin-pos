@@ -1,4 +1,4 @@
-package gui;
+package GUI;
 
 import java.util.*;
 import java.awt.BorderLayout;
@@ -29,12 +29,12 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 	private JScrollPane listScroller;
 	private ListSelectionModel selectionMode;
 	private String[] discountOptions = { " ", "employee", "manager" };
-	private JComboBox discountList = new JComboBox();
+	private JComboBox discountList;
 	private JTextField subTotal, total;
 	private JLabel label, label2;
 	private JTable table;
 	private Object[][] theOrder;
-	
+	private float price;
 	private int j, i;
 	public MainFrame(String title) {
 		super(title);
@@ -44,6 +44,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 		theOrder = new Object[20][20];
 		j = 0;
 		i = 0;
+		price = 0;
 		logout = new JButton("Logout");
 		add(logout);
 		String[] columnNames = {"Food item", "Price"};
@@ -56,6 +57,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 			    {"kind of food", new Double(10.00)}
 			};
 		table = new JTable(data, columnNames);
+		table.setSelectionMode(selectionMode.MULTIPLE_INTERVAL_SELECTION);
 		add(table);
 		listScroller = new JScrollPane(table);
 		listScroller.setPreferredSize(new Dimension(450, 80));
@@ -64,32 +66,20 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 		add(label);
 		subTotal = new JTextField(30);
 		add(subTotal);
-//		theMenu.addListSelectionListener(new ListSelectionListener(){
-//
-//			public void valueChanged(ListSelectionEvent e) {
-//				
-//				
-//			}
-//		});
+
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
-	        	String total1;//bug here
-	        	int count = 0;
-	        	total1 = table.getValueAt(table.getSelectedRow(), 1).toString();
-	        	System.out.println("i: " + i + " | j: " + j);
-	        	while(count < 2 ){
-	        		theOrder[i][j] = table.getValueAt(table.getSelectedRow(), 0);
-	        		j++;
-	        		theOrder[i][j] = table.getValueAt(table.getSelectedRow(), 1);
+	        	if(!(event.getValueIsAdjusting())){
+		        	theOrder = setOrder(theOrder);
+		        	subTotal.setText(runningTotal());
 	        	}
-	        	i++;
-	        	subTotal.setText(total1);
 	        }
 	    });
 		confirmOrder = new JButton("Confirm Order");
 		confirmOrder.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				PayFrame pay = new PayFrame("Pay Frame", theOrder);
+				String[] title = {"Food", "Price"};
+				PayFrame pay = new PayFrame(title, theOrder);
 				pay.setVisible(true);
 			}
 		});
@@ -98,25 +88,58 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 		clearSelection.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				subTotal.setText("");
-				table.removeRowSelectionInterval(0, table.getRowCount() - 1);
-				i = 0;
-				j = 0;
+				 table.clearSelection();
+				 table.getSelectionModel().clearSelection();
+				
+				i = j = 0;
 			}
 		});
 		
 		add(clearSelection);
-		discount = new JButton("Discount");
-		discount.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		add(discount);
 		
+		
+		label2 = new JLabel("Discount");
+		add(label2);
+		discountList = new JComboBox();
+		discountList.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				float adjustedPrice;
+				if(discountList.getSelectedItem() == "employee"){
+					adjustedPrice = Float.parseFloat(runningTotal());
+					float temp = (float) (adjustedPrice * .15);
+					adjustedPrice -= temp;
+					String newPrice = Float.toString(adjustedPrice);
+					subTotal.setText(newPrice);
+				}
+			}
+			
+		});
 		for (int i = 0; i < 3; i++)
 			discountList.addItem(discountOptions[i]);
 		add(discountList);
 		
-	}	
+	}
+		
+	
+	public Object[][] setOrder( Object[][] theOrder ){
+		j = 0;
+		theOrder[i][j] = table.getValueAt(table.getSelectedRow(), 0);
+    	j++;
+    	theOrder[i][j] = table.getValueAt(table.getSelectedRow(), 1);
+    	i++;
+		return theOrder;
+		
+	}
+	//following method should be in the tax object		
+	public String runningTotal (){
+		String total1;
+		total1 = table.getValueAt(table.getSelectedRow(), 1).toString();
+		price += Float.parseFloat(total1);
+		//price = tax.getTax(price);
+		total1 = Float.toString(price);
+		System.out.println("total: " + total1);
+		return total1;
+	}
 	
 }
+
