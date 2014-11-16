@@ -1,4 +1,4 @@
-package Project.java;
+package GUI;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -10,29 +10,28 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 public class PayFrame extends JFrame implements ActionListener{
 	private JButton pay;
 	private JButton cancelOrder;
-	private JList<String> theOrder;
+	private JTable theOrder;
 	private JTextField total;
 	private JScrollPane listScroller;
 	
-	public PayFrame(String title, Object[] objects) {
-		super(title);
+	public PayFrame(String[] title, Object[][] objects) {
+		super(title[0]);
 		setSize(500,200);
 		setResizable(false);
 		setLayout(new FlowLayout());
 		
-		theOrder = new JList(objects);
+		theOrder = new JTable(objects, title);
 		add(theOrder);
-		theOrder.setLayoutOrientation(JList.VERTICAL);
-		theOrder.setVisibleRowCount(-1);
 		listScroller = new JScrollPane(theOrder);
 		listScroller.setPreferredSize(new Dimension(450, 80));
 		add(listScroller);
-		total = new JTextField();
+		total = new JTextField(30);
 		total.setText("  ");
 		add(total);
 		pay = new JButton("Pay");
