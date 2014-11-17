@@ -43,10 +43,11 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 	private Object[][] theOrder;
 	private double ttl, subtl, tx, disct;
 	private int j, i;
-	private JPanel Mpanel, Gpanel;
+	public JPanel Mpanel, Gpanel;
 	private ReciptCalculator calc;
 	private boolean flag; 
 	private float total1;
+	public GridBagConstraints c;
 	//private Double[] prices = {5.00, 3.00, 2.00, 20.00, 5.99, 11.00, 12.99, 6.0};
 	
 	public MainFrame(String title) {
@@ -99,10 +100,6 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
      GridBagConstraints c = new GridBagConstraints();
      
 		theOrder = new Object[20][20];
-		ttl = 0.0;
-		subtl = 0.0;
-		tx= 0.0;
-		disct = 0.0;
 		
 		/*a layout that allows flexible alignment of components*/
 		c.gridx = 0;
