@@ -10,10 +10,17 @@ public class ReciptCalculator {
 	static final String USER = "root";
 	static final String PASS = "admin";
 	*/
-	public static void main(String[] args) {
-		   
-	}
+	private float price = 0;
 	
+	public String runningTotal (float total){
+		System.out.println("price: " + price);
+		price += total;
+		String total1 = Float.toString(price);
+		return total1;
+	}
+	public void resetPrice(float total){
+		price = total;
+	}
 	
 	//Adds 13% tax if not taxExempt
 	public double calculateTax(double subtotal, boolean taxExempt){
