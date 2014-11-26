@@ -1,4 +1,4 @@
-package pos;
+package Project.java;
 
 import java.awt.event.ActionEvent;
 

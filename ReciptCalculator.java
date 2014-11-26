@@ -1,8 +1,7 @@
-package pos;
+package Project.java;
 
+import java.text.DecimalFormat;
 
-
-//import java.sql.*;
 public class ReciptCalculator {
 	//Set up things to access the SQL database
 	/*static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
@@ -11,16 +10,12 @@ public class ReciptCalculator {
 	static final String PASS = "admin";
 	*/
 	private float price = 0;
+	private float tp;
 	
-	public String runningTotal (float total){
-		System.out.println("price: " + price);
-		price += total;
-		String total1 = Float.toString(price);
-		return total1;
+	public static void main(String[] args) {
+		   
 	}
-	public void resetPrice(float total){
-		price = total;
-	}
+	
 	
 	//Adds 13% tax if not taxExempt
 	public double calculateTax(double subtotal, boolean taxExempt){
@@ -53,6 +48,24 @@ public class ReciptCalculator {
 		public double CalculateDiscount(double subtotal, double ammountOff){
 			double total=subtotal-ammountOff;
 			return total;
+		}
+		
+
+		public void resetPrice(float total){
+			price = total;
+		}
+		
+		public String runningTotal (float total){
+			//System.out.println("price: " + price);
+			
+			price += total;
+			String total1 = (new DecimalFormat("#.##").format(price));
+			return total1;
+			
+			/*System.out.println("price: " + price);
+			price += total;
+			String total1 = Float.toString(price);
+			return total1;*/
 		}
 	
 }
