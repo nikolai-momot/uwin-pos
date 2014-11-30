@@ -103,6 +103,9 @@ public class PayFrame extends JFrame implements ActionListener{
 		Gpanel.add(cancel, c);
 		/*cancelOrder = new JButton("Cancel");
 		add(cancelOrder);*/
+		total.setText(MainFrame.calc.getTotalString());
+		tax.setText(Float.toString((float)MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt) - MainFrame.calc.getTotal()));
+		
 	}
 	
 	public void taxfunc(float t){

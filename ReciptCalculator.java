@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 
 public class ReciptCalculator {
 
+	public boolean taxExempt;
 	private float GrandTotal = 0;
 	
 	public static void main(String[] args) {
@@ -35,7 +36,8 @@ public class ReciptCalculator {
 	
 	//Apply discount percentage
 		public double CalculateDiscount(int percentage){
-			double total=GrandTotal-(GrandTotal*(percentage/100));
+			double discount = (100-((double)percentage))/100;
+			double total=GrandTotal*discount;
 			return total;
 		}
 	//Apply discount Amount
