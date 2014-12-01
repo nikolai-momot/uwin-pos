@@ -11,47 +11,23 @@ import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 
 public class ManagerFrame extends MainFrame  {
-	private JButton addItem;
-	private JButton removeItem;
 	
+	private MainFrame key;
+		
 	public ManagerFrame(String title) {
-		super(title);
+		super(title,  "FOOD ITEM: ", "PRICE: ", false);
 		GridBagConstraints c = new GridBagConstraints();
-		addItem = new JButton("Add item");
-		addItem.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				
-			}
 			
-		});
-		c.insets = new Insets(40, -350, 0, 0); //specifies the bottom distance
-		c.gridx = 0;
-		c.gridy = 4;
-		Gpanel.add(addItem, c);
+		}
 		
-		removeItem = new JButton("Remove item");
-		removeItem.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				
-			}
-			
-		});
-		c.insets = new Insets(40, -650, 0, 0); //specifies the bottom distance
-		c.gridx = 1;
-		c.gridy = 4;
-		Gpanel.add(removeItem, c);
-		super.label.setText("Item Name:");
-		super.label2.setText("Item Price:");
-	}
-	
-	
-	public void valueChanged(ListSelectionEvent arg0) {
-	}
+		
+		public void valueChanged(ListSelectionEvent arg0) {
+		}
 
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
-}

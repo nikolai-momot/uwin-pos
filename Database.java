@@ -79,7 +79,7 @@ public class Database {
 	       
 	      // execute the query, and get a java resultset
 	      ResultSet rs = st.executeQuery(query);
-	       
+	     
 	      // iterate through the java resultset
 	      while (rs.next())
 	      {

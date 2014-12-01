@@ -120,7 +120,6 @@ public class PayFrame extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		
 	}
-	
 	/*public static void main(String[] args){
 	 PayFrame v = new PayFrame();
 	  v.setVisible(true);
