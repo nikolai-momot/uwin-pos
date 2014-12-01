@@ -20,7 +20,7 @@ public class Login extends JFrame implements ActionListener {
 	
 	private JButton login;
 	private String[] description = { "Cashier", "Manager" };
-	private MainFrame manager;
+	private static MainFrame manager;
 	private MainFrame cashier;
 	private JComboBox loginOption = new JComboBox();
 	private JPanel p, p2;
@@ -102,7 +102,12 @@ public class Login extends JFrame implements ActionListener {
 			
 		});		
 	}
-
+	
+	public static void Refresh(){
+		manager.Close();
+		manager = new ManagerFrame("Manager Frame" );
+		manager.setVisible(true);
+	}
 	public void Close(){
 		 super.dispose();		
 	 }

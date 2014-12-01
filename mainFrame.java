@@ -202,7 +202,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 				confirmOrder.addActionListener( new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						String[] title = {"Food", "Price"};
-						PayFrame pay = new PayFrame(title, theOrder);
+						PayFrame pay = new PayFrame(title, theOrder,(String) discountList.getSelectedItem());
 						pay.taxfunc(currentItem);
 						pay.setVisible(true);
 					}
@@ -244,9 +244,9 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 					public void actionPerformed(ActionEvent e) {
 						String newPrice;
 						if(discountList.getSelectedItem() == "Student")
-					total.setText(money.format(calc.CalculateDiscount(5)));
-				else if(discountList.getSelectedItem() == "Worker")
-							total.setText(money.format(calc.CalculateDiscount(15)));
+						total.setText(money.format(calc.CalculateDiscount(5)));
+					else if(discountList.getSelectedItem() == "Worker")
+								total.setText(money.format(calc.CalculateDiscount(15)));
 					}
 					
 				});
@@ -264,7 +264,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 			addItem.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 					Database.AddItem(Integer.toString(table.getRowCount()+1),subTotal.getText(),total.getText());
-					repaint();
+					Login.Refresh();
 				}				
 			});
 			Gpanel.add(addItem, c);
@@ -277,7 +277,8 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 			removeItem.addActionListener(new ActionListener(){
 			 public void actionPerformed(ActionEvent e) {
 				 //System.out.println("Selected ID: " + Database.IDs[table.getSelectedRow()]);
-				 Database.RemoveItem(Integer.toString(Database.IDs[table.getSelectedRow()]));				 
+				 Database.RemoveItem(Integer.toString(Database.IDs[table.getSelectedRow()]));	
+				 Login.Refresh();
 			 }
 				
 			});

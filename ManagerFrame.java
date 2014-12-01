@@ -17,7 +17,10 @@ public class ManagerFrame extends MainFrame  {
 		super(title,  "FOOD ITEM: ", "PRICE: ", false);
 		GridBagConstraints c = new GridBagConstraints();
 		
-		}		
+		}
+		public void Refresh(){
+			this.revalidate();
+		}
 		
 		public void valueChanged(ListSelectionEvent arg0) {
 		}
