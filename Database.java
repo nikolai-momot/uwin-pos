@@ -17,15 +17,16 @@ public class Database {
 	static String description;
 	static Double price;
 	
-	public static void Connect(){//code that connects to the local database.
-	try{
+	public static void Connect(){//code that connects to the database, in this case, a local one
+		
+		try{
 
 	      Class.forName(myDriver);
 	}
 	
 		catch (Exception e)
 	    {
-	      System.err.println("Got an exception!");
+	      System.err.println("An Exception has been found: ");
 	      System.err.println(e.getMessage());
 	    }
 	}
@@ -34,35 +35,32 @@ public class Database {
 		try{
 		  Connection connect = DriverManager.getConnection(myUrl, USER, PASS);
 		     
-		  	System.out.println("Please enter what you wish to insert, split by ,: (eg: 1,chicken shawarma, chicken wrap,5.99)");
+		  	System.out.println("Please enter what you wish to insert, split by ,: (eg: 1,chicken shawarma,chicken wrap,5.99)");
 		  	Scanner in = new Scanner(System.in);
 		  	String enter = in.nextLine();
 
-		  	String tokenize[] = enter.split("-");
+		  	String tokenize[] = enter.split(",");
 		  	Itemnumber = Integer.parseInt(tokenize[0]);
 		  	name = tokenize[1];
 		  	description = tokenize[2];
 		  	price = Double.parseDouble(tokenize[3]);
 		      
-		      // the mysql insert statement
+		  
 		      String query = " insert into menu (itemnumber, name, description, price)"
 		        + " values (?, ?, ?, ?)";
 		 
-		      // create the mysql insert preparedstatement
+		    
 		      PreparedStatement preparedStmt = connect.prepareStatement(query);
 		      preparedStmt.setInt (1, Itemnumber);
 		      preparedStmt.setString (2, name);
 		      preparedStmt.setString   (3, description);
 		      preparedStmt.setDouble(4, price);
-		      
-		      // execute the preparedstatement
 		      preparedStmt.execute();
 		       
 		      connect.close();
 	}
-		    catch (Exception e)
-		    {
-		      System.err.println("Got an exception!");
+		    catch (Exception e){
+		      System.err.println("An exception has been found:");
 		      System.err.println(e.getMessage());
 		    }
 }
@@ -97,17 +95,46 @@ public class Database {
 	      st.close();
 		}
 		
-		catch (Exception e)
-	    {
-	      System.err.println("Got an exception!");
+		catch (Exception e){
+	      System.err.println("An exception has been found:");
 	      System.err.println(e.getMessage());
 	    }	
 		
 
 	}
+	
+	public static void Delete(){
+		int item = 0;
+		
+		 try
+		    {
+		      Connection connect = DriverManager.getConnection(myUrl, USER, PASS);
+		      
+			  System.out.println("Enter the Item Number of the item to delete:");
+			  Scanner in = new Scanner(System.in);
+			  item = in.nextInt();
+		       
+		      String query = "delete from menu where itemnumber = ?";
+		      PreparedStatement preparedStmt = connect.prepareStatement(query);
+		      preparedStmt.setInt(1, item);
+		      preparedStmt.execute();
+		      connect.close();
+		      in.close();
+		    }
+		 
+		    catch (Exception e){
+		      System.err.println("An exception has been found:");
+		      System.err.println(e.getMessage());
+		    }
+	}
+	
+	
+	
 	public static void main(String[] args) {
 	Connect();
 	Insert();
+	Select();
+	Delete();
 	Select();
 	}
 }
