@@ -1,5 +1,5 @@
 package Project.java;
-
+import java.text.DecimalFormat;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -103,8 +103,8 @@ public class PayFrame extends JFrame implements ActionListener{
 		Gpanel.add(cancel, c);
 		/*cancelOrder = new JButton("Cancel");
 		add(cancelOrder);*/
-		total.setText(MainFrame.calc.getTotalString());
-		tax.setText(Float.toString((float)MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt) - MainFrame.calc.getTotal()));
+		total.setText(MainFrame.money.format(MainFrame.calc.getTotal()));
+		tax.setText(MainFrame.money.format(MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt) - MainFrame.calc.getTotal()));
 		
 	}
 	

@@ -1,6 +1,6 @@
 package Project.java;
 
-import java.text.DecimalFormat;
+
 
 public class ReciptCalculator {
 
@@ -45,24 +45,6 @@ public class ReciptCalculator {
 			double total=GrandTotal-ammountOff;
 			return total;
 		}
-/*****************Same Functions but Returning Strings********************/	
-			public String calculateTaxString(double subtotal, boolean taxExempt){
-				return Float.toString((float) calculateTax(subtotal,taxExempt));
-			}
-			public String CalculateTipString(int percentage){
-				return Float.toString((float)(CalculateTip(percentage)));
-			}
-			public String CalculateTipString(double tip){				
-				return Float.toString((float)(CalculateTip(tip)));
-			}
-			public String CalculateDiscountString(int percentage){
-				return Float.toString((float)(CalculateDiscount(percentage)));
-			}
-			public String CalculateDiscountString(double ammountOff){
-				return Float.toString((float)(CalculateDiscount(ammountOff)));
-			}
-		
-/**************************************************************************/
 		public void resetPrice(float total){
 			GrandTotal = total;
 		}

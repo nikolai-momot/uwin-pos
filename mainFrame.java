@@ -1,5 +1,5 @@
 package Project.java;
-
+import java.text.DecimalFormat;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.awt.BorderLayout;
@@ -46,6 +46,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 	private boolean flag; 
 	private float currentItem;
 	public GridBagConstraints c;
+	static DecimalFormat money = new DecimalFormat("#.##");
 	//private Double[] prices = {5.00, 3.00, 2.00, 20.00, 5.99, 11.00, 12.99, 6.0};
 	
 	public MainFrame(String title) {
@@ -176,8 +177,8 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 		        			theOrder = setOrder(theOrder);
 				        	currentItem = Float.parseFloat(table.getValueAt(table.getSelectedRow(), 1).toString());
 				        	calc.addtoTotal(currentItem);
-				        	subTotal.setText(calc.getTotalString());
-				        	total.setText(calc.calculateTaxString(calc.getTotal(),calc.taxExempt));
+				        	subTotal.setText(money.format(calc.getTotal()));
+				        	total.setText(money.format(calc.calculateTax(calc.getTotal(),calc.taxExempt)));
 		        		}
 		        		
 		        	}
@@ -232,9 +233,9 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 			public void actionPerformed(ActionEvent e) {
 				String newPrice;
 				if(discountList.getSelectedItem() == "Student"){					
-					total.setText(calc.CalculateDiscountString(5)); //In this context, 5 means 5% off.
+					total.setText(money.format(calc.CalculateDiscount(5))); //In this context, 5 means 5% off.
 				}else if(discountList.getSelectedItem() == "Worker"){
-					total.setText(calc.CalculateDiscountString(15));
+					total.setText(money.format(calc.CalculateDiscount(15)));
 				}
 			}
 			
