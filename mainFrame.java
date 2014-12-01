@@ -34,7 +34,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 	private String[] discountOptions = { "Select", "None", "Worker", "Student" };	
 	
 	private double ttl, subtl, tx, disct;
-	private int j, i;	
+	private int j, i, length=0;	
 	
 	private boolean flag; 
 	private float currentItem, price;
@@ -71,6 +71,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
     	j++;
     	theOrder[i][j] = table.getValueAt(table.getSelectedRow(), 2);
     	i++;
+    	length++;
 		return theOrder;		
 	}
 	
@@ -202,7 +203,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 				confirmOrder.addActionListener( new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
 						String[] title = {"Food", "Price"};
-						PayFrame pay = new PayFrame(title, theOrder,(String) discountList.getSelectedItem());
+						PayFrame pay = new PayFrame(title, theOrder,(String) discountList.getSelectedItem(),length);
 						pay.taxfunc(currentItem);
 						pay.setVisible(true);
 					}

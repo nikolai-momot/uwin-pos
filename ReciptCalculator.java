@@ -25,12 +25,12 @@ public class ReciptCalculator {
 	
 	//Adds percentage to tip
 	public double CalculateTip(int percentage){
-		double total=GrandTotal*(1+(percentage/100));
+		double total=GrandTotal*((double)percentage/100);
 		return total;
 	}
 	//Adds amount to tip
 		public double CalculateTip(double tip){
-			double total=GrandTotal+tip;
+			double total = tip;
 			return total;
 		}
 	
