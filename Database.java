@@ -21,6 +21,7 @@ public class Database {
 	static String name;
 	static String description;
 	static Double price;
+	static int[] IDs = new int[50];
 	
 	public static void Connect(){//code that connects to the database, in this case, a local one
 		
@@ -58,8 +59,12 @@ public class Database {
 		       
 		      connect.close();
 	}catch (Exception e){
-	    System.err.println("An exception has been found:");
-	    System.err.println(e.getMessage());
+		System.err.println(e.getMessage());
+		if(e.getMessage().matches("Duplicate entry.*")){
+			AddItem(Integer.toString((Itemnumber+1)),n,p);
+		}
+	    //System.err.println("An exception has been found:");
+	    //System.err.println(e.getMessage());
 	}
 }
 	public static void RemoveItem(String i){
@@ -117,6 +122,7 @@ public class Database {
 		 pricelist.toArray(priceArray);
 		 
 		 for(int i=0;i<namelist.size();i++){
+			   IDs[i] = Integer.parseInt(itemnumberArray[i]);
 		       model.addRow(new Object[]{itemnumberArray[i], itemnameArray[i], priceArray[i]});
 		 }
 		 

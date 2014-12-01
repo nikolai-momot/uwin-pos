@@ -264,6 +264,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 			addItem.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 					Database.AddItem(Integer.toString(table.getRowCount()+1),subTotal.getText(),total.getText());
+					repaint();
 				}				
 			});
 			Gpanel.add(addItem, c);
@@ -275,8 +276,8 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 			c.ipadx = 2;
 			removeItem.addActionListener(new ActionListener(){
 			 public void actionPerformed(ActionEvent e) {
-				 Database.RemoveItem(Integer.toString((table.getSelectedRow()+1)));
-				 
+				 //System.out.println("Selected ID: " + Database.IDs[table.getSelectedRow()]);
+				 Database.RemoveItem(Integer.toString(Database.IDs[table.getSelectedRow()]));				 
 			 }
 				
 			});
