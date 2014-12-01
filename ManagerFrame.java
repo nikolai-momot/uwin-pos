@@ -40,7 +40,8 @@ public class ManagerFrame extends MainFrame  {
 		c.gridx = 1;
 		c.gridy = 4;
 		Gpanel.add(removeItem, c);
-		
+		super.label.setText("Item Name:");
+		super.label2.setText("Item Price:");
 	}
 	
 	

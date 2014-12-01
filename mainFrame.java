@@ -30,21 +30,22 @@ import javax.swing.event.ListSelectionListener;
 public abstract class MainFrame extends JFrame implements ActionListener,ListSelectionListener{
 	
 	private JButton confirmOrder, clearSelection, logout;
-	private JLabel discount;
-	private JScrollPane listScroller;
-	private ListSelectionModel selectionMode;
-	private String[] discountOptions = { "Select", "None", "Worker", "Student" };
-	private JComboBox discountList;
-	private JTextField subTotal, total, tax;
-	private JLabel label, label2, label3;
-	private JTable table;
-	private Object[][] theOrder;
-	private double ttl, subtl, tx, disct;
-	private int j, i;
+	protected JLabel discount;
+	protected JScrollPane listScroller;
+	protected ListSelectionModel selectionMode;
+	protected String[] discountOptions = { "Select", "None", "Worker", "Student" };
+	protected JComboBox discountList;
+	protected JTextField subTotal, total, tax;
+	protected JLabel label;
+	protected JLabel label2;
+	protected JTable table;
+	protected Object[][] theOrder;
+	protected double ttl, subtl, tx, disct;
+	protected int j, i;
 	public JPanel Mpanel, Gpanel;
 	public static ReciptCalculator calc;
-	private boolean flag; 
-	private float currentItem;
+	protected boolean flag; 
+	protected float currentItem;
 	public GridBagConstraints c;
 	static DecimalFormat money = new DecimalFormat("#.##");
 	//private Double[] prices = {5.00, 3.00, 2.00, 20.00, 5.99, 11.00, 12.99, 6.0};
@@ -117,7 +118,8 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
          
 	   String[] columnNames = {"Food item", "Price"};
 /**************This Data needs to be drawn from the database**************************/
-		Object[][] data = {
+		//Object data = Database.PullData(); //this function
+	   Object[][] data = {
 			    {"Chicken Sandwich", new Double(5.00)},
 			    {"French Fries", new Double(3.00)},
 			    {"Soft Drinks", new Double(2.00)},
