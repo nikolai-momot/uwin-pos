@@ -13,7 +13,7 @@ public class Database {
 	final static String USER = "root";
 	final static String PASS = "admin";
     static String myDriver = "org.gjt.mm.mysql.Driver";
-    static String myUrl = "jdbc:mysql://localhost/uwinpos";
+    static String myUrl = "jdbc:mysql://localhost/ShawarmaPOS";
 	static int Itemnumber;
 	static String name;
 	static String description;
@@ -22,20 +22,15 @@ public class Database {
 	public static void Connect(){//code that connects to the database, in this case, a local one
 		
 		try{
+
 	      Class.forName(myDriver);
-		}	
+	}
+	
 		catch (Exception e)
 	    {
 	      System.err.println("An Exception has been found: ");
 	      System.err.println(e.getMessage());
 	    }
-	}
-	
-	
-	public static Object[][] PullData(){
-		//CODE HERE
-		Object[][] data = null;
-		return data;
 	}
 	
 	public static void Insert(){
@@ -115,20 +110,17 @@ public class Database {
 		
 		 try
 		    {
-		      String myDriver = "org.gjt.mm.mysql.Driver";
-		      String myUrl = "jdbc:mysql://localhost/uwinpos";
-		      Class.forName(myDriver);
-		      Connection conn = DriverManager.getConnection(myUrl, USER, PASS);
+		      Connection connect = DriverManager.getConnection(myUrl, USER, PASS);
 		      
 			  System.out.println("Enter the Item Number of the item to delete:");
 			  Scanner in = new Scanner(System.in);
 			  item = in.nextInt();
 		       
 		      String query = "delete from menu where itemnumber = ?";
-		      PreparedStatement preparedStmt = conn.prepareStatement(query);
+		      PreparedStatement preparedStmt = connect.prepareStatement(query);
 		      preparedStmt.setInt(1, item);
 		      preparedStmt.execute();
-		      conn.close();
+		      connect.close();
 		      in.close();
 		    }
 		 
@@ -143,7 +135,8 @@ public class Database {
 	public static void main(String[] args) {
 	Connect();
 	//Insert();
-	Select();
+	//Select();
 	//Delete();
+	Select();
 	}
 }
