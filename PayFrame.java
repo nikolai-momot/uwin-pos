@@ -20,10 +20,8 @@ public class PayFrame extends JFrame implements ActionListener{
 	private JTextField total, tax, tip;
 	private JLabel ttl, tx, tp; 
 	private JScrollPane listScroller;
-	private JPanel Mpanel, Gpanel;
-	
-	
-	
+
+	private JPanel Mpanel, Gpanel;	
 	
 	public PayFrame(String[] title, Object[][] objects) {
 		

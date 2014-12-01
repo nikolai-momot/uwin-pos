@@ -22,10 +22,8 @@ public class Database {
 	public static void Connect(){//code that connects to the database, in this case, a local one
 		
 		try{
-
 	      Class.forName(myDriver);
-	}
-	
+	}	
 		catch (Exception e)
 	    {
 	      System.err.println("An Exception has been found: ");

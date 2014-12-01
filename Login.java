@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -62,7 +63,7 @@ public class Login extends JFrame implements ActionListener {
 	     c.gridy = 3;
 	     Gpanel.add(Pwd, c);
 	     /*change to Jpassword later*/
-	     l = new JTextField(15);
+	     l = new JPasswordField(15);
 	     c.insets = new Insets(27,52,0,0);
 	     c.gridx = 1;
 	     c.gridy = 3;
@@ -97,9 +98,7 @@ public class Login extends JFrame implements ActionListener {
 			    Close();	
 			}
 			
-		});
-		
-		
+		});		
 	}
 
 	public void Close(){
