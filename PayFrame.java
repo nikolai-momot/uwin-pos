@@ -25,7 +25,6 @@ public class PayFrame extends JFrame implements ActionListener{
 	
 	public PayFrame(String[] title, Object[][] objects) {
 		
-		
         super(title[0]);
 		
         CreateView();

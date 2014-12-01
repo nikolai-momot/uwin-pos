@@ -47,34 +47,35 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 public abstract class MainFrame extends JFrame implements ActionListener,ListSelectionListener{
 	
-	private JButton confirmOrder;
-	private JButton clearSelection;
-	private JButton logout;
-	private JLabel discount;
-	private JScrollPane listScroller;
-	private ListSelectionModel selectionMode;
-	private String[] discountOptions = { "Select", "None", "Worker", "Student" };
+	private JButton confirmOrder,addItem,removeItem,clearSelection,logout;
+	private JLabel discount,label, label2, label3;
 	private JComboBox discountList;
-	private JTextField subTotal, total, tax;
-	private JLabel label, label2, label3;
+	private JTextField subTotal, total, tax;	
+	private JScrollPane listScroller;
 	private JTable table;
-	private Object[][] theOrder;
-	private double ttl, subtl, tx, disct;
-	private int j, i;
 	public JPanel Mpanel, Gpanel;
-	static ReciptCalculator calc;
+	
+	
+	private String[] discountOptions = { "Select", "None", "Worker", "Student" };	
+	
+	private double ttl, subtl, tx, disct;
+	private int j, i;	
+	
 	private boolean flag; 
 	private float currentItem, price;
 	private float p;
 	private String L1= " ", L2 = " "; //to save the label names
 	private boolean numofcomponents; //to help distinguish no of components for each 
-	private JButton addItem;
-	private JButton removeItem;
 	private String items;
-	static DecimalFormat money = new DecimalFormat("#.##");
+	
+	private ListSelectionModel selectionMode;
+	private Object[][] theOrder;
+	static ReciptCalculator calc;
+	static DecimalFormat money = new DecimalFormat("#.##");//Here to print floats as properly formatted strings
 
 	
 /*our Goal is to make the class as generic as possible*/	
@@ -99,13 +100,11 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
     	j++;
     	theOrder[i][j] = table.getValueAt(table.getSelectedRow(), 1);
     	i++;
-		return theOrder;
-		
+		return theOrder;		
 	}
 	
 	public void clearOrder(){
 		subTotal.setText("");
-		total.setText(" ");
 		for( int x = 0 ; x <= i; x ++)
 			for(int y = 0 ; y <= j ; y ++)
 				theOrder[x][y] = null;
@@ -157,27 +156,15 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 			}
 		});
 	   Gpanel.add(logout, c);
-         
-	   String[] columnNames = {"ID", "Food item", "Price"};
-		
-		Object[][] data = {
-			    {"1","Chicken Sandwich", new Double(5.00)},
-			    {"2","French Fries", new Double(3.00)},
-			    {"3","Soft Drinks", new Double(2.00)},
-			    {"4","Water", new Double(20.00)},
-			    {"5","Ice Cream", new Double(5.99)},
-			    {"6","Pizza slice", new Double(11.00)},
-			    {"7","Tossed Salad", new Double(12.90)},
-			    {"8","House Salad", new Double(6.07)},
-			    {"9","Garlic cheese bread", new Double(25.50)},
-			    {"10","Special Sandwich", new Double(14.00)},
-			    {"11","Cheddar Biscuit", new Double(15.00)},
-			    {"12","Veggie Sandwich", new Double(30.00)},
-			    {"13","Egg Omelet", new Double(21.00)},
-			    {"14","Home Fries", new Double(24.99)},
-			    {"15","Whole Grain toast", new Double(10.90)}
-		     };
-		table = new JTable(data, columnNames);
+	   /***************************NEW TABLE CODE********************************************/
+	   /***************************NEW TABLE CODE********************************************/
+	   /***************************NEW TABLE CODE********************************************/
+	 	   DefaultTableModel model = Database.BuildTable();	      
+	       final JTable table = new JTable(model);
+	   /***************************NEW TABLE CODE********************************************/
+	   /***************************NEW TABLE CODE********************************************/
+	   /***************************NEW TABLE CODE********************************************/
+       
 		table.getColumnModel().getColumn(0).setPreferredWidth(5);
 		c.gridx = 0;
 		c.gridy = 1;
@@ -218,7 +205,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 		        public void valueChanged(ListSelectionEvent event) {
 		        	if(!(event.getValueIsAdjusting())){
 		        		if( flag ){
-		        			theOrder = setOrder(theOrder);
+		        			//theOrder = setOrder(theOrder);
 				        		if(numofcomponents == true){ /*set the fields of the cashier frame to the appropriate menu items*/
 				        			currentItem = Float.parseFloat(table.getValueAt(table.getSelectedRow(), 2).toString());	
 				        			calc.addtoTotal(currentItem);
@@ -248,7 +235,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 				
 				confirmOrder.addActionListener( new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						String[] title = {"Food", "Price"};
+						String[] title = {"ID","Food", "Price"};
 						PayFrame pay = new PayFrame(title, theOrder);
 						pay.taxfunc(currentItem);
 						pay.setVisible(true);

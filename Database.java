@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.swing.table.DefaultTableModel;
 
 
 public class Database {
@@ -29,6 +32,60 @@ public class Database {
 	      System.err.println("An Exception has been found: ");
 	      System.err.println(e.getMessage());
 	    }
+	}
+	
+	
+	public static DefaultTableModel BuildTable(){
+		DefaultTableModel model = new DefaultTableModel(); 
+		model.addColumn("ID");
+	    model.addColumn("Food Item");
+	    model.addColumn("Price");
+		try{
+			Connection connect = DriverManager.getConnection(myUrl, USER, PASS);
+		       
+		      // our SQL SELECT query. 
+		      // if you only need a few columns, specify them by name instead of using "*"
+		      String query = "SELECT * FROM menu";
+		 
+		      // create the java statement
+		      Statement st = connect.createStatement();
+		       
+		      // execute the query, and get a java resultset
+		      ResultSet rs = st.executeQuery(query);
+		    ArrayList<String> idlist = new ArrayList<String>();
+			ArrayList<String> namelist = new ArrayList<String>();
+			ArrayList<String> pricelist = new ArrayList<String>();			     
+
+		 while ( rs.next() ) {
+			 idlist.add(rs.getString("Itemnumber"));
+			 namelist.add(rs.getString("name"));
+			 pricelist.add(rs.getString("price"));			           
+		 }    
+		 String [] itemnumberArray = new String [namelist.size()];
+		 idlist.toArray(itemnumberArray);
+		 String [] itemnameArray = new String [namelist.size()];
+		 namelist.toArray(itemnameArray);
+		 String [] priceArray = new String [pricelist.size()];
+		 pricelist.toArray(priceArray);
+		 
+		 for(int i=0;i<namelist.size();i++){
+		       model.addRow(new Object[]{itemnumberArray[i], itemnameArray[i], priceArray[i]});
+		 }
+		 
+		}catch (Exception e){
+		      System.err.println("An exception has been found:");
+		      System.err.println(e.getMessage());
+		    }	
+		return model;
+	}
+	
+	public static int CheckPass(String password){
+		if(password.equals("abc123"))
+			return 1;
+		else if(password.equals("admin123"))
+			return 2;
+		else
+			return 0;
 	}
 	
 	public static void Insert(){
