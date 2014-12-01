@@ -1,13 +1,14 @@
 package Project.java;
-import java.text.DecimalFormat;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.DefaultListModel;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,7 +21,6 @@ public class PayFrame extends JFrame implements ActionListener{
 	private JTextField total, tax, tip;
 	private JLabel ttl, tx, tp; 
 	private JScrollPane listScroller;
-
 	private JPanel Mpanel, Gpanel;	
 	
 	public PayFrame(String[] title, Object[][] objects) {
@@ -102,7 +102,6 @@ public class PayFrame extends JFrame implements ActionListener{
 		add(cancelOrder);*/
 		total.setText(MainFrame.money.format(MainFrame.calc.getTotal()));
 		tax.setText(MainFrame.money.format(MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt) - MainFrame.calc.getTotal()));
-		
 	}
 	
 	public void taxfunc(float t){

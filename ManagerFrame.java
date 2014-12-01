@@ -11,23 +11,20 @@ import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 
 public class ManagerFrame extends MainFrame  {
-	
 	private MainFrame key;
 		
 	public ManagerFrame(String title) {
 		super(title,  "FOOD ITEM: ", "PRICE: ", false);
 		GridBagConstraints c = new GridBagConstraints();
-			
-		}
 		
+		}		
 		
 		public void valueChanged(ListSelectionEvent arg0) {
 		}
-
-
+		
+		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
-			
+					
 		}
 	}

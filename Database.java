@@ -34,6 +34,54 @@ public class Database {
 	    }
 	}
 	
+	public static void AddItem(String i, String n, String p){
+		try{
+		  Connection connect = DriverManager.getConnection(myUrl, USER, PASS);
+		     
+		  	
+		  	String enter = i + "," + n + "," + "Food," + p;
+		  	String tokenize[] = enter.split(",");
+		  	Itemnumber = Integer.parseInt(tokenize[0]);
+		  	name = tokenize[1];
+		  	description = tokenize[2];
+		  	price = Double.parseDouble(tokenize[3]);
+		      
+		     String query = " insert into menu (itemnumber, name, description, price)"
+		     + " values (?, ?, ?, ?)";		 
+		    
+		      PreparedStatement preparedStmt = connect.prepareStatement(query);
+		      preparedStmt.setInt (1, Itemnumber);
+		      preparedStmt.setString (2, name);
+		      preparedStmt.setString   (3, description);
+		      preparedStmt.setDouble(4, price);
+		      preparedStmt.execute();
+		       
+		      connect.close();
+	}catch (Exception e){
+	    System.err.println("An exception has been found:");
+	    System.err.println(e.getMessage());
+	}
+}
+	public static void RemoveItem(String i){
+		int item = Integer.parseInt(i);
+		
+		 try
+		    {
+		      Connection connect = DriverManager.getConnection(myUrl, USER, PASS);
+		      		       
+		      String query = "delete from menu where itemnumber = ?";
+		      PreparedStatement preparedStmt = connect.prepareStatement(query);
+		      preparedStmt.setInt(1, item);
+		      preparedStmt.execute();
+		      connect.close();
+		    }
+		 
+		    catch (Exception e){
+		      System.err.println("An exception has been found:");
+		      System.err.println(e.getMessage());
+		    }
+	}
+	
 	
 	public static DefaultTableModel BuildTable(){
 		DefaultTableModel model = new DefaultTableModel(); 

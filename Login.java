@@ -27,7 +27,6 @@ public class Login extends JFrame implements ActionListener {
 	private JPanel Mpanel, Gpanel;
 	private JLabel Pwd, usr;
 	private JTextField l;
-	public boolean close = false;
 	
 	public Login(String title) {
 		super(title);
@@ -82,16 +81,16 @@ public class Login extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(l.getText());
 				if( loginOption.getSelectedIndex() == 0 && Database.CheckPass(l.getText())==1){
-					close = true;
 					System.out.println(loginOption.getSelectedIndex());
 					cashier = new CashierFrame("Cashier Frame" );
 					cashier.setVisible(true);
+					Close();
 					//CashierFrame.setVisible(true);
 				}
-				else if(loginOption.getSelectedIndex() != 0 && Database.CheckPass(l.getText())==1){
-					 close = true;
+				else if(loginOption.getSelectedIndex() != 0 && Database.CheckPass(l.getText())==2){
 					 manager = new ManagerFrame("Manager Frame" );
 					 manager.setVisible(true);
+					 Close();
 				}
 			}
 		});
@@ -99,9 +98,6 @@ public class Login extends JFrame implements ActionListener {
 		login.addActionListener(new ActionListener(){
 		    
 			public void actionPerformed(ActionEvent e){
-			    if(close){
-				Close();	
-			    }
 			}
 			
 		});		

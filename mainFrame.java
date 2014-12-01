@@ -1,49 +1,20 @@
 package Project.java;
-import java.util.*;
-import java.text.*;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import java.text.DecimalFormat;
-import java.util.*;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -94,16 +65,16 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
         
 	}	
 
-	public Object[][] setOrder( Object[][] theOrder ){
+	public Object[][] setOrder( Object[][] theOrder , JTable table){
 		j = 0;
-		theOrder[i][j] = table.getValueAt(table.getSelectedRow(), 0);
+		theOrder[i][j] = table.getValueAt(table.getSelectedRow(), 1);
     	j++;
-    	theOrder[i][j] = table.getValueAt(table.getSelectedRow(), 1);
+    	theOrder[i][j] = table.getValueAt(table.getSelectedRow(), 2);
     	i++;
 		return theOrder;		
 	}
 	
-	public void clearOrder(){
+	public void clearOrder(JTable table){
 		subTotal.setText("");
 		for( int x = 0 ; x <= i; x ++)
 			for(int y = 0 ; y <= j ; y ++)
@@ -111,8 +82,8 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 		calc.resetPrice(0);
 		
 		flag = false;
-		table.removeRowSelectionInterval(0, table.getRowCount() -1);
-		
+		//table.removeRowSelectionInterval(0, table.getRowCount());
+		total.setText("");
 		currentItem = 0;
 		flag = true;
 		i = j = 0;
@@ -156,15 +127,10 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 			}
 		});
 	   Gpanel.add(logout, c);
-	   /***************************NEW TABLE CODE********************************************/
-	   /***************************NEW TABLE CODE********************************************/
-	   /***************************NEW TABLE CODE********************************************/
+	   
 	 	   DefaultTableModel model = Database.BuildTable();	      
 	       final JTable table = new JTable(model);
-	   /***************************NEW TABLE CODE********************************************/
-	   /***************************NEW TABLE CODE********************************************/
-	   /***************************NEW TABLE CODE********************************************/
-       
+	       
 		table.getColumnModel().getColumn(0).setPreferredWidth(5);
 		c.gridx = 0;
 		c.gridy = 1;
@@ -205,7 +171,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 		        public void valueChanged(ListSelectionEvent event) {
 		        	if(!(event.getValueIsAdjusting())){
 		        		if( flag ){
-		        			//theOrder = setOrder(theOrder);
+		        			theOrder = setOrder(theOrder,table);
 				        		if(numofcomponents == true){ /*set the fields of the cashier frame to the appropriate menu items*/
 				        			currentItem = Float.parseFloat(table.getValueAt(table.getSelectedRow(), 2).toString());	
 				        			calc.addtoTotal(currentItem);
@@ -235,7 +201,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 				
 				confirmOrder.addActionListener( new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						String[] title = {"ID","Food", "Price"};
+						String[] title = {"Food", "Price"};
 						PayFrame pay = new PayFrame(title, theOrder);
 						pay.taxfunc(currentItem);
 						pay.setVisible(true);
@@ -251,7 +217,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 				c.ipadx = 1/2;
 				clearSelection.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						clearOrder();
+						clearOrder(table);
 					}
 				});
 				
@@ -297,9 +263,8 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 			
 			addItem.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
-					
-				}
-				
+					Database.AddItem(Integer.toString(table.getRowCount()+1),subTotal.getText(),total.getText());
+				}				
 			});
 			Gpanel.add(addItem, c);
 			
@@ -310,10 +275,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 			c.ipadx = 2;
 			removeItem.addActionListener(new ActionListener(){
 			 public void actionPerformed(ActionEvent e) {
-			 /*Algorithm: we use tables 
-			  * */		
-			  	 
-				 
+				 Database.RemoveItem(Integer.toString((table.getSelectedRow()+1)));
 				 
 			 }
 				
