@@ -125,9 +125,11 @@ public class PayFrame extends JFrame implements ActionListener{
 		
 		pay.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+				String tiptype="";
 				/****Calculate Tip****/
 				if(tip.getText().matches(".*%") || tip.getText().matches("%.*")){
 					tipammount = (double) MainFrame.calc.CalculateTip(Integer.parseInt(tip.getText().replaceAll("[^\\d.]", "")));
+					tiptype = " (" + tip.getText().replaceAll("[^\\d.]", "") + "%)";
 				}else if(tip.getText() != null){
 					tipammount = (float) MainFrame.calc.CalculateTip(Double.parseDouble(tip.getText()));
 				}
@@ -142,14 +144,14 @@ public class PayFrame extends JFrame implements ActionListener{
 					System.out.print("$" + objects[i][1].toString() + "\n");
 					}
 				}
-				System.out.println("\n\nSubtotal..........$" + total.getText());
-				System.out.println("Tax...............$" + tax.getText());
+				System.out.println("\n\nSubtotal.........................$" + total.getText());
+				System.out.println("Tax..............................$" + tax.getText());
 				if(tip.getText()!= null){
-				System.out.println("Tip...............$" + MainFrame.money.format(tipammount) + " (" + tip.getText().replaceAll("[^\\d.]", "") + "%)");
-				System.out.println("\nTotal.............$" + MainFrame.money.format(MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt) + tipammount));
+				System.out.println("Tip..............................$" + MainFrame.money.format(tipammount) + tiptype);
+				System.out.println("\nTotal............................$" + MainFrame.money.format(MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt) + tipammount));
 				}else{
-				System.out.println("Tip...............$0.00");
-				System.out.println("\nTotal.............$" + MainFrame.money.format(MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt)));}
+				System.out.println("Tip..............................$0.00");
+				System.out.println("\nTotal............................$" + MainFrame.money.format(MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt)));}
 				System.out.println("=======================");
 			}
 			
