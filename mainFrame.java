@@ -105,6 +105,7 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 	
 	public void clearOrder(){
 		subTotal.setText("");
+		total.setText(" ");
 		for( int x = 0 ; x <= i; x ++)
 			for(int y = 0 ; y <= j ; y ++)
 				theOrder[x][y] = null;
