@@ -81,14 +81,26 @@ public class Database {
 	      ResultSet rs = st.executeQuery(query);
 	       
 	      // iterate through the java resultset
+		  
+		  Object[][] data = {
 	      while (rs.next())
 	      {
+		  
+				 for (int r=0; r<shades.length; r++) {
+     for (int c=0; c<shades[r].length; c++) {
+         shades[r][c]="hello";//your value
+     }
+ }
 	        int itemnumber = rs.getInt("itemnumber");
 	        String name = rs.getString("name");
 	        String description = rs.getString("description");
 	        Double price = rs.getDouble("price");
-	    
-	        
+			
+			
+			{name, price};
+			
+			}
+			
 	        // print the results
 	        System.out.format("(%s)- %s - %s: [%s]\n", itemnumber, name, description, price);
 	      }
