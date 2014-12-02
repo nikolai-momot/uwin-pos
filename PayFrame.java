@@ -137,12 +137,16 @@ public class PayFrame extends JFrame implements ActionListener{
 				/*code to trigger receipt from database here*/
 				System.out.println("=========Recipt=========\n");
 				for(int i=0;i<length;i++){
-					if(objects[i][0].toString() != null){
-					System.out.print((i+1) + ". " + objects[i][0].toString());
-					for(int j=0;j<(30-(objects[i][0].toString().length()));j++){	
-					System.out.print(".");}
-					System.out.print("$" + objects[i][1].toString() + "\n");
+					try{
+						if(objects[i][0].toString() != null){
+						System.out.print((i+1) + ". " + objects[i][0].toString());
+						for(int j=0;j<(30-(objects[i][0].toString().length()));j++){	
+						System.out.print(".");}
+						System.out.print("$" + objects[i][1].toString() + "\n");
+						}
+					}catch (Exception e1){
 					}
+					
 				}
 				System.out.println("\n\nSubtotal.........................$" + total.getText());
 				System.out.println("Tax..............................$" + tax.getText());
@@ -153,6 +157,7 @@ public class PayFrame extends JFrame implements ActionListener{
 				System.out.println("Tip..............................$0.00");
 				System.out.println("\nTotal............................$" + MainFrame.money.format(MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt)));}
 				System.out.println("=======================");
+				Database.LogRecipt(Double.parseDouble(total.getText()),(MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt) + tipammount), tipammount);
 			}
 			
 		});

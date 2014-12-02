@@ -1,10 +1,7 @@
 package Project.java;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -22,6 +19,8 @@ public class Database {
 	static String description;
 	static Double price;
 	static int[] IDs = new int[50];
+	static Date date;
+	static Date time;
 	
 	public static void Connect(){//code that connects to the database, in this case, a local one
 		
@@ -34,6 +33,54 @@ public class Database {
 	      System.err.println(e.getMessage());
 	    }
 	}
+    private static java.sql.Date getCurrentDate() {
+        java.util.Date today = new java.util.Date();
+        return new java.sql.Date(today.getTime());
+    }
+    
+    private static java.sql.Time getCurrentTime(){
+    	java.util.Date date = new java.util.Date();
+        return new java.sql.Time(date.getTime());
+    }
+    public static void LogRecipt(double subtotal,double total, double tip){
+  	   
+    	try
+        {	
+          // create a mysql database connection
+          String myDriver = "org.gjt.mm.mysql.Driver";
+          String myUrl = "jdbc:mysql://localhost/ShawarmaPOS";
+          Class.forName(myDriver);
+          Connection conn = DriverManager.getConnection(myUrl, USER, PASS);
+          
+          // the mysql insert statement
+          String query = " insert into receipt (date, time, subtotal, tip, total)"
+            + " values (?, ?, ?, ?, ?)";
+          
+          
+     
+          // create the mysql insert preparedstatement
+          PreparedStatement preparedStmt = conn.prepareStatement(query);
+          
+          preparedStmt.setDate (1, getCurrentDate());
+          preparedStmt.setTime(2, getCurrentTime());
+          preparedStmt.setDouble(3, subtotal);
+          preparedStmt.setDouble(4, tip);
+          preparedStmt.setDouble(5, total);
+          
+          
+          
+          // execute the preparedstatement
+          preparedStmt.execute();
+           
+          conn.close();
+        }
+        catch (Exception e)
+        {
+          System.err.println("Got an exception!");
+          System.err.println(e.getMessage());
+        }
+    }
+    
 	
 	public static void AddItem(String i, String n, String p){
 		try{
@@ -142,6 +189,7 @@ public class Database {
 			return 0;
 	}
 	
+	/*The Following functions are for testing and debugging*/
 	public static void Insert(){
 		try{
 		  Connection connect = DriverManager.getConnection(myUrl, USER, PASS);
@@ -176,7 +224,8 @@ public class Database {
 		    }
 }
 	
-	public static void Select(){
+	
+	public static void SelectMenu(){//Output the menu
 		
 		try{
 		Connection connect = DriverManager.getConnection(myUrl, USER, PASS);
@@ -213,6 +262,7 @@ public class Database {
 		
 
 	}
+
 	
 	public static void Delete(){
 		int item = 0;
@@ -238,14 +288,57 @@ public class Database {
 		      System.err.println(e.getMessage());
 		    }
 	}
-	
+	public static void SelectReceiptLog(){
+	  
+		   
+		try
+	    {
+	      // create our mysql database connection
+	      String myDriver = "org.gjt.mm.mysql.Driver";
+	      String myUrl = "jdbc:mysql://localhost/ShawarmaPOS";
+	      Class.forName(myDriver);
+	      Connection conn = DriverManager.getConnection(myUrl, USER, PASS);
+	       
+	      // our SQL SELECT query. 
+	      // if you only need a few columns, specify them by name instead of using "*"
+	      String query = "SELECT * FROM receipt";
+	 
+	      // create the java statement
+	      Statement st = conn.createStatement();
+	       
+	      // execute the query, and get a java resultset
+	      ResultSet rs = st.executeQuery(query);
+	       
+	      // iterate through the java resultset
+	      while (rs.next())
+	      {
+	    	int OID = rs.getInt("orderid");
+	        Date date = rs.getDate("date");
+	        Time time = rs.getTime("time");
+	        Double subtotal = rs.getDouble("subtotal");
+	        Double tip = rs.getDouble("tip");
+	        Double total = rs.getDouble("total");
+	        
+	    
+	        
+	        // print the results
+	        System.out.format("%s - %s at %s: Subtotal: $%.2f Tip: $%.2f Total: $%.2f\n", OID, date, time, subtotal, tip, total);
+	      }
+	      st.close();
+	    }
+	    catch (Exception e)
+	    {
+	      System.err.println("Got an exception! ");
+	      System.err.println(e.getMessage());
+	    }
+	  }
 	
 	
 	public static void main(String[] args) {
 	Connect();
 	//Insert();
-	//Select();
 	//Delete();
-	Select();
+	//SelectMenu();
+	SelectReceiptLog();
 	}
 }
