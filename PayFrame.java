@@ -125,7 +125,7 @@ public class PayFrame extends JFrame implements ActionListener{
 		
 		pay.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				String tiptype="";
+				String tiptype="", reciept="";
 				/****Calculate Tip****/
 				if(tip.getText().matches(".*%") || tip.getText().matches("%.*")){
 					tipammount = (double) MainFrame.calc.CalculateTip(Integer.parseInt(tip.getText().replaceAll("[^\\d.]", "")));
@@ -133,31 +133,34 @@ public class PayFrame extends JFrame implements ActionListener{
 				}else if(tip.getText() != null){
 					tipammount = (float) MainFrame.calc.CalculateTip(Double.parseDouble(tip.getText()));
 				}
-				
-				/*code to trigger receipt from database here*/
-				System.out.println("=========Recipt=========\n");
+				reciept+="==============Reciept==============\n";
+				/*Use this to print to .pdf*/
 				for(int i=0;i<length;i++){
 					try{
 						if(objects[i][0].toString() != null){
-						System.out.print((i+1) + ". " + objects[i][0].toString());
-						for(int j=0;j<(30-(objects[i][0].toString().length()));j++){	
-						System.out.print(".");}
-						System.out.print("$" + objects[i][1].toString() + "\n");
+						reciept+=((i+1) + ". " + objects[i][0].toString());
+						for(int j=0;j<(50-(objects[i][0].toString().length()));j++){	
+						reciept+=(".");}
+						reciept+=("$" + objects[i][1].toString() + "\n");
 						}
 					}catch (Exception e1){
 					}
 					
 				}
-				System.out.println("\n\nSubtotal.........................$" + total.getText());
-				System.out.println("Tax..............................$" + tax.getText());
+				reciept+=("\n\nSubtotal.........................$" + total.getText());
+				reciept+=("\nTax...................................$" + tax.getText());
 				if(tip.getText()!= null){
-				System.out.println("Tip..............................$" + MainFrame.money.format(tipammount) + tiptype);
-				System.out.println("\nTotal............................$" + MainFrame.money.format(MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt) + tipammount));
+				reciept+=("\nTip...................................$" + MainFrame.money.format(tipammount) + tiptype);
+				reciept+=("\nTotal..............................$" + MainFrame.money.format(MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt) + tipammount));
 				}else{
-				System.out.println("Tip..............................$0.00");
-				System.out.println("\nTotal............................$" + MainFrame.money.format(MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt)));}
-				System.out.println("=======================");
+				reciept+=("\nTip...................................$0.00");
+				reciept+=("\nTotal...............................$" + MainFrame.money.format(MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt)));}
+				reciept+=("\n=====================================");
+				/* Done printing to .pdf */
+				String time = Database.getCurrentTime().toString();
+				PdfMaker.createPDF("Your Reciept " + time.replaceAll(":",";") + ".pdf", reciept);
 				Database.LogRecipt(Double.parseDouble(total.getText()),(MainFrame.calc.calculateTax(MainFrame.calc.getTotal(),MainFrame.calc.taxExempt) + tipammount), tipammount);
+				Close();
 			}
 			
 		});

@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 public abstract class MainFrame extends JFrame implements ActionListener,ListSelectionListener{
 	
-	private JButton confirmOrder,addItem,removeItem,clearSelection,logout;
+	private JButton confirmOrder,addItem,removeItem,clearSelection,logout,printlog;
 	private JLabel discount,label, label2, label3;
 	private JComboBox discountList;
 	private JTextField subTotal, total, tax;	
@@ -283,8 +283,20 @@ public abstract class MainFrame extends JFrame implements ActionListener,ListSel
 			 }
 				
 			});
-			
 			Gpanel.add(removeItem, c);
+			
+			printlog = new JButton("Print Reciept Log");
+			c.insets = new Insets(200, 45, 0, 0);  // specifies the bottom distance 
+			c.gridx = 1;
+			c.gridy = 1;
+			c.ipadx = 10;			
+			printlog.addActionListener(new ActionListener(){
+				 public void actionPerformed(ActionEvent e) {
+					 Database.PrintReceiptLog();
+				 }
+					
+				});
+			Gpanel.add(printlog, c);
 			
 		  }
 	}	

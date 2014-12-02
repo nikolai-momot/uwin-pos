@@ -38,7 +38,7 @@ public class Database {
         return new java.sql.Date(today.getTime());
     }
     
-    private static java.sql.Time getCurrentTime(){
+    static java.sql.Time getCurrentTime(){
     	java.util.Date date = new java.util.Date();
         return new java.sql.Time(date.getTime());
     }
@@ -80,6 +80,51 @@ public class Database {
           System.err.println(e.getMessage());
         }
     }
+    
+    public static void PrintReceiptLog(){
+	  	try
+	    {
+	      // create our mysql database connection
+	      String myDriver = "org.gjt.mm.mysql.Driver";
+	      String myUrl = "jdbc:mysql://localhost/ShawarmaPOS";
+	      Class.forName(myDriver);
+	      Connection conn = DriverManager.getConnection(myUrl, USER, PASS);
+	       
+	      // our SQL SELECT query. 
+	      // if you only need a few columns, specify them by name instead of using "*"
+	      String query = "SELECT * FROM receipt";
+	 
+	      // create the java statement
+	      Statement st = conn.createStatement();
+	       
+	      // execute the query, and get a java resultset
+	      ResultSet rs = st.executeQuery(query);
+	      String t = Database.getCurrentTime().toString();
+	      String log ="===============Recieps Log " + t.replaceAll(":",";")+"===============\n";
+	      // iterate through the java resultset
+	      while (rs.next())
+	      {
+	    	int OID = rs.getInt("orderid");
+	        Date date = rs.getDate("date");
+	        Time time = rs.getTime("time");
+	        Double subtotal = rs.getDouble("subtotal");
+	        Double tip = rs.getDouble("tip");
+	        Double total = rs.getDouble("total"); 
+	    
+	        
+	        // print the results to pdf
+	        log += "\nOrder ID: " + OID + " Date: " + date + " " + time + " Subtotal: $"
+	        + MainFrame.money.format(subtotal) + " Tip: $" + MainFrame.money.format(tip) + " Total: $" + MainFrame.money.format(total); 
+	        PdfMaker.createPDF("Reciept Log " + t.replaceAll(":",";") + ".pdf", log);
+	      }
+	      st.close();
+	    }
+	    catch (Exception e)
+	    {
+	      System.err.println("Got an exception! ");
+	      System.err.println(e.getMessage());
+	    }
+	  }
     
 	
 	public static void AddItem(String i, String n, String p){
@@ -289,9 +334,7 @@ public class Database {
 		    }
 	}
 	public static void SelectReceiptLog(){
-	  
-		   
-		try
+	  	try
 	    {
 	      // create our mysql database connection
 	      String myDriver = "org.gjt.mm.mysql.Driver";
